@@ -34,6 +34,17 @@ namespace Project_TIIK_WPF.Models
             }
         }
 
+        private double _frequencyPercent;
+        public double FrequencyPercent
+        {
+            get { return Math.Round(_frequencyPercent, 2); }
+            set
+            {
+                _frequencyPercent = value;
+                OnPropertyChanged();
+            }
+        }
+
         public CharFrequency(char character)
         {
             Character = character;

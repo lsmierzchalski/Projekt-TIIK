@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using LiveCharts;
+using LiveCharts.Wpf;
 
 namespace Project_TIIK_WPF.ViewModels
 {
@@ -37,6 +39,37 @@ namespace Project_TIIK_WPF.ViewModels
             }
         }
 
+        private SeriesCollection _seriesCollection;
+        public SeriesCollection SeriesCollection {
+            get { return _seriesCollection; }
+            set {
+                _seriesCollection = value;
+                OnPropertyChanged(); 
+                } 
+        }
+
+        private string[] _labels;
+        public string[] Labels
+        {
+            get { return _labels; }
+            set
+            {
+                _labels = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Func<double, string> _formatter;
+        public Func<double, string> Formatter
+        {
+            get { return _formatter; }
+            set
+            {
+                _formatter = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ICommand SelectFile_Click
         {
             get
@@ -55,6 +88,30 @@ namespace Project_TIIK_WPF.ViewModels
             {
                 Text = FileHelpfulFunctions.SelectFile();
                 ListCharFrequency = CharFrequencyHelperFunctions.GetListCharFrequency(Text);
+
+                //Chart
+                ChartValues<double> chartValues = new ChartValues<double>();
+                foreach(var item in ListCharFrequency)
+                {
+                    chartValues.Add(item.Frequency);
+                }
+
+                SeriesCollection = new SeriesCollection
+                {
+                    new ColumnSeries
+                    {
+                        Values = chartValues
+                    }
+                };
+
+                List<string> labels = new List<string>();
+                foreach (var item in ListCharFrequency)
+                {
+                    labels.Add(item.Character.ToString());
+                }
+
+                Labels = labels.ToArray();
+                Formatter = value => value.ToString("N");
             }
             catch (Exception ex)
             {

@@ -7,7 +7,8 @@
       xmlns:viewModels1="clr-namespace:Project_TIIK_WPF.ViewModels"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="LetterFrequencyPage">
+      Title="LetterFrequencyPage"
+      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf">
     
     <Grid>
 
@@ -15,7 +16,7 @@
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="150"/>
+            <RowDefinition Height="250"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -36,8 +37,22 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Znak" Binding="{Binding Character}"/>
                 <DataGridTextColumn Header="Kod znaku" Binding="{Binding DecimalValue}"/>
-                <DataGridTextColumn Header="Liczba wystąpień" Binding="{Binding Frequency}"/>
+                <DataGridTextColumn Header="Licz. wys." Binding="{Binding Frequency}"/>
+                <DataGridTextColumn Header="%" Binding="{Binding FrequencyPercent}"/>
             </DataGrid.Columns>
         </DataGrid>
+        <lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="None"  Grid.ColumnSpan="2" Grid.Row="3">
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Znak" 
+                          Labels="{Binding Labels}">
+                    <lvc:Axis.Separator>
+                        <lvc:Separator Step="1" />
+                    </lvc:Axis.Separator>
+                </lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Liczba wystąpień" LabelFormatter="{Binding Formatter}" ></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
     </Grid>
 </Page>

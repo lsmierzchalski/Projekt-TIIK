@@ -26,6 +26,11 @@ namespace Project_TIIK_WPF
                 }
             }
 
+            foreach(var item in list)
+            {
+                item.FrequencyPercent = Convert.ToDouble(item.Frequency) / Convert.ToDouble(text.Length) * 100.0;
+            }
+
             return list;
         }
 
