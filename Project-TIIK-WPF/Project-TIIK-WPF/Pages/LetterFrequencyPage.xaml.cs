@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Project_TIIK_WPF.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,16 +14,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Project_TIIK_WPF
+namespace Project_TIIK_WPF.Pages
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for LetterFrequencyPage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class LetterFrequencyPage : Page
     {
-        public MainWindow()
+        public LetterFrequencyPage()
         {
             InitializeComponent();
+            DataContext = new LetterFrequencyViewModel();
         }
     }
 }
