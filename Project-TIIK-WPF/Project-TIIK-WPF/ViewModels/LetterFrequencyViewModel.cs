@@ -100,6 +100,7 @@ namespace Project_TIIK_WPF.ViewModels
                 {
                     new ColumnSeries
                     {
+                        Title = "Liczba wystąpień",
                         Values = chartValues
                     }
                 };
@@ -111,7 +112,7 @@ namespace Project_TIIK_WPF.ViewModels
                 }
 
                 Labels = labels.ToArray();
-                Formatter = value => value.ToString("N");
+                Formatter = value => value + "";
             }
             catch (Exception ex)
             {
