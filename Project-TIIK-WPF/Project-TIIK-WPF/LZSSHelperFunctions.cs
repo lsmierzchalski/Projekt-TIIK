@@ -1,21 +1,21 @@
 ﻿using Project_TIIK_WPF.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Project_TIIK_WPF
 {
-    public static class LZ77HelperFunctions
+    public static class LZSSHelperFunctions
     {
+        public  const int CHAR_BIT_SIZE = 8;
 
-        public static List<LZ77StepOfAlgorithm> Compression(string text, int k, int n)
+        public static List<LZSSCompressionStep> Compression(string text, int k, int n)
         {
-            List<LZ77StepOfAlgorithm> outputList = new List<LZ77StepOfAlgorithm>();
+            List<LZSSCompressionStep> outputList = new List<LZSSCompressionStep>();
             string result = string.Empty;
             string input = string.Empty;
+
+            int size0PC = GetBitSize0PC(k, n);
 
             int lp = 1;
             if (text.Length > 0)
@@ -36,7 +36,7 @@ namespace Project_TIIK_WPF
                     dictionary += input[0];
                 }
                 int s = 0;
-                outputList.Add(new LZ77StepOfAlgorithm(lp, dictionary, input, text[0]));
+                outputList.Add(new LZSSCompressionStep(lp, dictionary, input, text[0]));
                 while (input.Length != 0)
                 {
                     lp++;
@@ -44,24 +44,35 @@ namespace Project_TIIK_WPF
                     int l = 0;
                     char c = input[0];
 
-                    for (int j = input.Length - 1; j > 0; j--)
+                    bool bit = true;
+                    for (int j = input.Length; j > 0; j--)
                     {
                         string prefix = input.Substring(0, j);
                         int tmp = PrefixExists(dictionary, prefix);
-                        if (tmp != -1)
+                        if (tmp != -1 && size0PC < prefix.Length * CHAR_BIT_SIZE)
                         {
                             i = tmp;
                             l = prefix.Length;
-                            c = input[prefix.Length];
+                            bit = false;
                             break;
                         }
                     }
 
-                    result += i + ", " + l + ", " + c + "\n";
-                    outputList.Add(new LZ77StepOfAlgorithm(lp, dictionary, input, i,  l, c));
+                    if (bit)
+                    {
+                        outputList.Add(new LZSSCompressionStep(lp, dictionary, input, input[0]));
+                        s += 1;
+                        dictionary = (dictionary + input).Substring(1, k);
+                    }
+                    else
+                    {
+                        outputList.Add(new LZSSCompressionStep(lp, dictionary, input, i, l));
+                        s += l;
+                        dictionary = (dictionary + input).Substring(l, k);
+                    }
 
-                    s += l + 1;
-                    dictionary = (dictionary + input).Substring(l + 1, k);
+                    result += i + ", " + l + ", " + c + "\n";
+;
                     if (s + n <= text.Length)
                     {
                         input = text.Substring(s, n);
@@ -77,22 +88,13 @@ namespace Project_TIIK_WPF
             return outputList;
         }
 
-        public static List<LZ77DecompressionStepOfAlgorithm> Decompression(List<LZ77StepOfAlgorithm> compressionList)
-        {
-            List<LZ77DecompressionStepOfAlgorithm> result = new List<LZ77DecompressionStepOfAlgorithm>();
-
-
-
-            return result;
-        }
-
         public static int PrefixExists(string dictionary, string prefix)
         {
             int result = -1;
 
             string window = dictionary + prefix.Substring(0, prefix.Length - 1);
 
-            for(int i=0; i<window.Length-prefix.Length+1; i++)
+            for (int i = 0; i < window.Length - prefix.Length + 1; i++)
             {
                 if (prefix == window.Substring(i, prefix.Length))
                 {
@@ -102,6 +104,16 @@ namespace Project_TIIK_WPF
             }
 
             return result;
+        }
+
+        public static int GetBitSize0PC(int k, int n)
+        {
+            string k_2 = Convert.ToString(k-1, 2).ToString();
+            string n_2 = Convert.ToString(n-1, 2).ToString();
+
+            int size = 1 + k_2.Length + n_2.Length;
+
+            return size;
         }
     }
 }

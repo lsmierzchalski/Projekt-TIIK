@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Project_TIIK_WPF.Models
 {
-    public class LZ77StepOfAlgorithm
+    public class LZSSCompressionStep
     {
         private int _lp = 0;
         public int Lp { get => _lp; set => _lp = value; }
@@ -18,37 +18,56 @@ namespace Project_TIIK_WPF.Models
         public string InputBuffer { get => _inputBuffer; set => _inputBuffer = value; }
 
 
+        private bool _bit;
+        public bool Bit { get => _bit; set => _bit = value; }
+
         private int _p;
         public int P { get => _p; set => _p = value; }
         private int _c;
         public int C { get => _c; set => _c = value; }
+
         private char _s;
         public char S { get => _s; set => _s = value; }
-        
-        public string OutputEncoder {
+
+        public string Output
+        {
             get
             {
-                if (Lp == 1) return S.ToString();
-                return P + ", " + C + ", " + S;
+                if(Lp == 1)
+                {
+                    return S.ToString();
+                }
+                else
+                {
+                    if (Bit)
+                    {
+                        return "(1, " + S + ")";
+                    }
+                    else
+                    {
+                        return "(0, " + P + ", " + C + ")";
+                    }
+                }
             }
         }
 
-        public LZ77StepOfAlgorithm(int lp, string dictionary, string input, int p, int c, char s)
+        public LZSSCompressionStep(int lp, string dictionary, string input, char s)
         {
+            Bit = true;
+            Lp = lp;
+            DictionaryBuffer = dictionary;
+            InputBuffer = input;
+            S = s;
+        }
+
+        public LZSSCompressionStep(int lp, string dictionary, string input, int p, int c)
+        {
+            Bit = false;
             Lp = lp;
             DictionaryBuffer = dictionary;
             InputBuffer = input;
             P = p;
             C = c;
-            S = s;
-        }
-
-        public LZ77StepOfAlgorithm(int lp, string dictionary, string input, char s)
-        {
-            Lp = lp;
-            DictionaryBuffer = dictionary;
-            InputBuffer = input;
-            S = s;
         }
     }
 }

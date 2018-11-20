@@ -1,9 +1,5 @@
-﻿using System;
+﻿using Project_TIIK_WPF.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace Project_TIIK_WPF.ViewModels
@@ -15,15 +11,27 @@ namespace Project_TIIK_WPF.ViewModels
         private uint _n = 4;
         public uint N { get => _n; set => _n = value; }
 
-        private string _text = string.Empty;
+        private string _text = "aabbcabbcdddc";// string.Empty;
         public string Text { get => _text; set => _text = value; }
 
-        private string _outputText = string.Empty;
-        public string OutputText {
-            get => _outputText;
+        private List<LZ77StepOfAlgorithm> _outputList = new List<LZ77StepOfAlgorithm>();
+        public List<LZ77StepOfAlgorithm> OutputList
+        {
+            get => _outputList;
             set
             {
-                _outputText = value;
+                _outputList = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private List<LZ77DecompressionStepOfAlgorithm> _outputDecompressionList = new List<LZ77DecompressionStepOfAlgorithm>();
+        public List<LZ77DecompressionStepOfAlgorithm> OutputDecompressionList
+        {
+            get => _outputDecompressionList;
+            set
+            {
+                _outputDecompressionList = value;
                 OnPropertyChanged();
             }
         }
@@ -35,10 +43,23 @@ namespace Project_TIIK_WPF.ViewModels
                 return new RelayCommand(
                     () =>
                     {
-                        OutputText = LZ77HelperFunctions.Compression(Text, int.Parse(K.ToString()), int.Parse(N.ToString()));
+                        OutputList = LZ77HelperFunctions.Compression(Text, int.Parse(K.ToString()), int.Parse(N.ToString()));
                     });
             }
         }
+
+        public ICommand Decompression_Click
+        {
+            get
+            {
+                return new RelayCommand(
+                    () =>
+                    {
+                        OutputDecompressionList = LZ77HelperFunctions.Decompression(OutputList);
+                    });
+            }
+        }
+        
 
     }
 }
