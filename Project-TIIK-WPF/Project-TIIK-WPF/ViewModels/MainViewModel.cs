@@ -15,6 +15,7 @@ namespace Project_TIIK_WPF.ViewModels
         private Page TestLZ77Page;
         private Page AboutPage;
         private Page TestLZSSPage;
+        private Page LZSSPage;
 
         private Page _currentPage;
         public Page CurrentPage {
@@ -34,9 +35,10 @@ namespace Project_TIIK_WPF.ViewModels
             TestLZ77Page = new Pages.TestLZ77Page();
             AboutPage = new Pages.AboutPage();
             TestLZSSPage = new Pages.TestLZSSPage();
+            LZSSPage = new Pages.LZSSPage();
 
             FrameOpacity = 1;
-            CurrentPage = TestLZSSPage;
+            CurrentPage = LZSSPage;
         }
 
         public ICommand LetterFrequency_Click
@@ -82,6 +84,18 @@ namespace Project_TIIK_WPF.ViewModels
                     () =>
                     {
                         SlowOpacity(TestLZSSPage);
+                    });
+            }
+        }
+
+        public ICommand LZSS_Click
+        {
+            get
+            {
+                return new RelayCommand(
+                    () =>
+                    {
+                        SlowOpacity(LZSSPage);
                     });
             }
         }

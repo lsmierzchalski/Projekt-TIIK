@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Project_TIIK_WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="PROJEKT TIIK - LZSS" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>
@@ -15,7 +15,7 @@
             <Button Command="{Binding LetterFrequency_Click}" Content="Częstość znkaów" Margin="5"/>
             <Button Command="{Binding TestLZ77_Click}" Content="Test LZ77" Margin="5" />
             <Button Command="{Binding TestLZSS_Click}" Content="Test LZSS" Margin="5" />
-            <Button Command="{Binding Zadanie3_Click}" Content="Zadanie 3" Margin="5" IsEnabled="False"/>
+            <Button Command="{Binding LZSS_Click}" Content="LZSS" Margin="5"/>
             <Button Command="{Binding Zadanie4_Click}" Content="Zadanie 4" Margin="5" IsEnabled="False"/>
             <Button Command="{Binding About_Click}" Content="O programie" Margin="5" />
         </StackPanel>

@@ -1,0 +1,77 @@
+﻿<Page x:Class="Project_TIIK_WPF.Pages.LZSSPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Project_TIIK_WPF.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="LZSSPage">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="160"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.ColumnSpan="2">
+            <TextBlock Text="LZSS"/>
+            <TextBlock Text=""/>
+            <TextBlock Text="Parametry:"/>
+            <TextBlock Text="Długość słownika"/>
+            <TextBox Text="{Binding DictionarySize}"/>
+            <TextBlock Text="Długość bufora wejściowego"/>
+            <TextBox Text="{Binding BufferSize}"/>
+            <TextBlock Text="Długość znaku w bajtach"/>
+            <TextBox Text="{Binding CharSize}"/>
+        </StackPanel>
+
+        <StackPanel Margin="5" Grid.Row="1">
+            <TextBlock Text="Kompresowanie pliku"/>
+            <TextBlock Text=""/>
+            
+            <TextBlock Text="Plik"/>
+            <Button Content="Wybierz plik tekstowy" Command="{Binding SelectTXTFile_Click}"/>
+            <TextBox Text="{Binding PathFileCompresion}"/>
+            <TextBlock />
+
+            <Button Content="Kompresuj i zapisz plik" Command="{Binding CompresionAndSaveToFile_Click}"/>
+            <TextBlock Text=""/>
+
+            <TextBlock Text="Czas kompresowania"/>
+            <TextBox Text="{Binding TimeCompresion}"/>
+            <TextBlock Text="Rozmiar pliku wejsciowego"/>
+            <TextBox Text="{Binding SizeCompresionInputFile}"/>
+            <TextBlock Text="Rozmiar pliku wyjsciowego"/>
+            <TextBox Text="{Binding SizeCompresionOutputFile}"/>
+
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Margin="5" Grid.Row="1">
+            <TextBlock Text="Dekompresowanie pliku"/>
+            <TextBlock />
+
+            <TextBlock Text="Plik"/>
+            <Button Content="Wybierz plik *.lzss" Command="{Binding SelectLZSSFile_Click}"/>
+            <TextBox Text="{Binding PathFileDecompresion}"/>
+            <TextBlock Text=""/>
+
+            <Button Content="Dekompresuj i zapisz plik" Command="{Binding DecompresionAndSaveToFile_Click}"/>
+            <TextBlock Text=""/>
+
+            <TextBlock Text="Czas dekompresowania"/>
+            <TextBox Text="{Binding TimeDecompresion}"/>
+            <TextBlock Text="Rozmiar pliku wejsciowego"/>
+            <TextBox Text="{Binding SizeDecompresionInputFile}"/>
+            <TextBlock Text="Rozmiar pliku wyjsciowego"/>
+            <TextBox Text="{Binding SizeDecompresionOutputFile}"/>
+        </StackPanel>
+
+    </Grid>
+</Page>
